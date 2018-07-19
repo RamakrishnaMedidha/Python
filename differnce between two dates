@@ -1,0 +1,28 @@
+from datetime import timedelta, date, datetime
+from data import holidays
+
+#Generate dates between two dates
+def daterange(date1, date2):
+	for n in range(int((date2 - date1).days) + 1):
+		yield date1 + timedelta(n)
+
+
+#counting business dates
+def datesdiff(date1, date2):
+	count = 0
+	dates_list = []
+	start_dt = datetime.strptime(date1, "%Y-%m-%d")
+	end_dt = datetime.strptime(date2, "%Y-%m-%d")
+	for dt in daterange(start_dt, end_dt):
+		'''excluding saturday,sunday and holidays from the given dates'''
+		# if dt.strftime("%Y-%m-%d")  in holidays:
+		#   print(dt)
+		if dt.weekday() != 5 and dt.weekday() != 6 and dt.strftime(
+		    "%Y-%m-%d") not in holidays:
+			#print(dt.strftime("%Y-%m-%d"))
+			count += 1
+
+	print("Total Business days from %s to %s = %d" % (date1, date2, count))
+
+
+datesdiff("2017-08-15", "2018-12-15")
